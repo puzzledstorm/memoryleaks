@@ -1,0 +1,1287 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><script src="//archive.org/includes/analytics.js?v=cf34f82" type="text/javascript"></script>
+<script type="text/javascript">window.addEventListener('DOMContentLoaded',function(){var v=archive_analytics.values;v.service='wb';v.server_name='wwwb-app200.us.archive.org';v.server_ms=4520;archive_analytics.send_pageview({});});</script>
+<script type="text/javascript" src="/_static/js/bundle-playback.js?v=MzYkZ0TU" charset="utf-8"></script>
+<script type="text/javascript" src="/_static/js/wombat.js?v=UHAOicsW" charset="utf-8"></script>
+<script type="text/javascript">
+  __wm.init("https://web.archive.org/web");
+  __wm.wombat("http://mg.pov.lt/blog/hunting-python-memleaks","20160309150809","https://web.archive.org/","web","/_static/",
+	      "1457536089");
+</script>
+<link rel="stylesheet" type="text/css" href="/_static/css/banner-styles.css?v=S1zqJCYt" />
+<link rel="stylesheet" type="text/css" href="/_static/css/iconochive.css?v=qtvMKcIJ" />
+<!-- End Wayback Rewrite JS Include -->
+
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <title>Hunting memory leaks in Python :: Random notes from mg</title>
+  <link rel="alternate" type="application/rss+xml" title="Random notes from mg (RSS 2.0)" href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/index.rss"/>
+  <style type="text/css">
+
+    /* Headings */
+
+    body {
+      color: black;
+      background: white;
+    }
+
+    h1 {
+      color: #134D73;
+      margin: 0 0 0.5ex 0;
+    }
+    div.subtitle {
+      color: #134D73;
+      margin: 0 0.5ex 2em 2ex;
+      font-size: large;
+    }
+    div.subtitle a {
+      color: #134D73;
+      text-decoration: none;
+    }
+
+    div.introduction {
+      font-size: small;
+      color: gray;
+      margin: 0 1em 2em 0;
+    }
+
+    h2 {
+      color: #134D73;
+      margin: 0.5em 0 2ex 0;
+      text-align: right;
+      border-top: 1px solid #869abf;
+      border-bottom: 1px solid #869abf;
+      padding: 2px;
+    }
+
+    h3 {
+      color: #134D73;
+      margin: 0 1ex 1ex 0;
+    }
+    h3 a:link, h3 a:visited, h3 a:hover, h3 a:active {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    h4 {
+      color: #134D73;
+    }
+
+    /* Main style */
+
+    .center { text-align: center; }
+
+    .invisible { visibility: hidden; }
+
+    img { border: none; }
+
+    pre {
+      border: 1px dotted #869abf;
+      color: black;
+      background: #f0f5ef;
+      padding: 1ex;
+      overflow: auto;
+    }
+    span.prompt {
+      color: #00cc00;
+    }
+    span.pdb {
+      color: #cc00cc;
+    }
+    span.typing {
+      color: #0000cc;
+    }
+    span.important {
+      color: red;
+    }
+
+    a {
+      color: #869ABF;
+    }
+    a:visited {
+      color: purple;
+    }
+    a:active, a:hover {
+      color: #B22222;
+    }
+
+    div.storyfooter {
+      margin: 1ex 0 3em 2em;
+      font-size: x-small;
+      color: gray;
+    }
+
+    /* Comments */
+
+    .ajax-error {
+      color: red;
+    }
+
+    div.blosxomComment {
+      margin: 0em 1em 2em 1em;
+      padding: 1em 1em 1em 1em;
+      font-size: x-small;
+      color: #222;
+      background: #eee;
+      overflow: hidden;
+    }
+
+    div.blosxomOwnerComment {
+      background: #ffc;
+    }
+
+    div.preview {
+      background: #ffe;
+      padding: 1ex;
+    }
+    p.previewWarning {
+      font-size: x-small;
+      margin-top: 0;
+    }
+
+    img.avatar {
+      float: right;
+      margin: 1ex 1ex 1ex 2ex;
+    }
+    div.commenttext {
+      font-size: small;
+    }
+
+    div.commentfooter {
+      margin: 1em 0 1ex 2em;
+      font-size: x-small;
+      color: gray;
+    }
+
+    div.preview div.commentfooter {
+      margin-bottom: 0;
+    }
+
+    div.blosxomCommentForm {
+      font-size: x-small;
+    }
+
+    div.blosxomCommentForm input,
+    div.blosxomCommentForm textarea {
+      border: 1px solid gray;
+      padding: 1px 2px;
+      font-size: small;
+      width: 30em;
+    }
+
+    div.blosxomCommentForm div.buttons input {
+      width: auto;
+      color: #444;
+      background: white;
+      border: 1px solid gray;
+      font-weight: bold;
+      padding: 1px 4px 2px 4px;
+      margin-right: 0.3ex;
+    }
+
+    .label {
+    }
+    .hint {
+      color: gray;
+    }
+
+    /* Navigation */
+
+    div.pagenav {
+      margin: 2em 0;
+      text-align: center;
+      font-size: small;
+      color: gray;
+    }
+
+    div.pagenav a {
+      text-decoration: none;
+    }
+
+    /* Sidebar */
+
+    body {
+      margin: 0 13.5em 0 0;
+      padding: 1em;
+      border-right: 1px dotted #eee;
+    }
+
+    div.searchbox {
+      float: right;
+      position: absolute;
+      top: 1em;
+      right: 14.5em;
+    }
+
+    div.searchbox input#searchtext {
+      border: 1px solid gray;
+      padding: 2px 4px;
+    }
+    div.searchbox input#searchtext:hover {
+      border: 1px solid #869abf;
+    }
+    div.searchbox input#searchbutton {
+      color: gray;
+      background: white;
+      border: 1px solid gray;
+      font-weight: bold;
+      padding: 1px 4px 2px 4px;
+      margin-left: 0.3ex;
+    }
+    div.searchbox input#searchbutton:hover {
+      color: #134D73;
+      border: 1px solid #869abf;
+    }
+
+    div.sidebar {
+      position: absolute;
+      margin: 1ex;
+      right: 0;
+      top: 0;
+      width: 12em;
+    }
+
+    div.sidebar div {
+      font-size: small;
+      margin-bottom: 3ex;
+    }
+
+    div.sidebar div.picture {
+      text-align: center;
+    }
+
+    div.sidebar div.rss,
+    div.sidebar div.technorati {
+      font-size: x-small;
+      text-align: center;
+      margin-top: 2em;
+      margin-bottom: -2em;
+    }
+
+    div.sidebar div.rss {
+      margin-top: 3em;
+    }
+
+    div.sidebar div.poweredby {
+      margin-top: 3em;
+      margin-bottom: 1ex;
+      text-align: center;
+    }
+
+    div.sidebar h2 {
+      clear: both;
+      color: #134D73;
+      font-size: large;
+      font-weight: normal;
+      margin: 1ex 0;
+    }
+
+    div.sidebar ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    div.sidebar li {
+      margin: 4px 1ex;
+      text-align: center;
+    }
+
+    div.sidebar div.tree .expander {
+      font-family: Arial, sans-serif;
+      cursor: pointer;
+    }
+    div.sidebar div.tree ul.subtree {
+      margin-left: 1em;
+    }
+    div.sidebar div.tree ul.subsubtree {
+      margin-left: 2em;
+    }
+    div.sidebar div.tree ul.subsubtree li {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    div.sidebar div.tree ul.collapsed {
+      display: none;
+    }
+    div.sidebar div.tree li {
+      text-align: left;
+    }
+    div.sidebar div.tags {
+      text-align: center;
+    }
+    div.sidebar div.tags li {
+      display: inline;
+      margin: 4px 0.25ex;
+    }
+
+    /* Footer */
+
+    hr.fornoncssbrowsers {
+      display: none;
+    }
+
+    hr.footer {
+      height: 1px;
+      border-top: 1px dotted gray;
+      border-bottom: none;
+      border-left: none;
+      border-right: none;
+      margin: 2em 10em 1em 10em;
+    }
+
+    div.footer {
+      font-size: x-small;
+      color: gray;
+      margin: 1em 2em;
+      }
+
+    /* Nonintrusive hyperlinks */
+
+    div.introduction a,
+    div.storyfooter a,
+    div.footer a {
+      color: gray;
+      font-weight: normal;
+      text-decoration: none;
+      border-bottom: 1px dotted gray;
+    }
+    div.introduction a:visited,
+    div.storyfooter a:visited,
+    div.footer a:visited {
+      color: gray;
+    }
+    div.introduction a:active,
+    div.introduction a:hover,
+    div.storyfooter a:active,
+    div.storyfooter a:hover,
+    div.footer a:active,
+    div.footer a:hover {
+      color: #b22222;
+    }
+
+    .footnote {
+      font-size: x-small;
+      padding-left: 1px;
+    }
+    .footnotes {
+      font-size: small;
+    }
+
+    /* Python syntax highlighting */
+
+    .shebang    { color: #444444; }
+    .docstring  { color: #008000; }
+    .def        { color: #2040a0; font-weight: bold; }
+    .keyword    { color: #ff7700; }
+    .name       { color: #102050; }
+    .string     { color: #008000; }
+    .escape     { color: #00ff00; }
+    .comment    { color: #ff0000; }
+    .number     { color: #a02040; }
+
+    /* Archive pages */
+
+    table.summary td {
+      padding: 1px 1ex;
+    }
+    div.monthsummary {
+      margin-bottom: 1em;
+    }
+
+  </style>
+  <script type="text/javascript" src="https://web.archive.org/web/20160309150809js_/https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js">
+  </script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $("div.sidebar .expander").click(function(){
+        var arrow = $(this);
+        arrow.siblings('ul').toggleClass('collapsed');
+        var open = '▼';
+        var closed = '►';
+        arrow.text(arrow.text() == open ? closed : open);
+      });
+    });
+  </script>
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-2017413-1']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://web.archive.org/web/20160309150809/https://ssl' : 'https://web.archive.org/web/20160309150809/http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+</head>
+<body>
+
+<h1>Random notes from mg</h1>
+
+<div class="subtitle"><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog">a blog by Marius Gedminas</a></div>
+
+<div class="searchbox">
+  
+<form method="get" action="https://web.archive.org/web/20160309150809/http://www.google.com/search">
+<input type="hidden" name="sourceid" value="pyblosxom-search"/>
+<input accesskey="g" id="searchtext" name="q" size="12" value=""/>
+<input type="submit" id="searchbutton" name="submit" value="Search"/><br/>
+<input type="hidden" name="q" value="site:mg.pov.lt"/> 
+<input type="hidden" name="q" value="inurl:/blog"/> 
+</form>
+        
+</div>
+
+<hr class="fornoncssbrowsers"/>
+
+<div class="introduction">
+  Marius is a <a href="https://web.archive.org/web/20160309150809/http://www.python.org/">Python</a> <a href="https://web.archive.org/web/20160309150809/http://catb.org/~esr/jargon/html/H/hacker.html">hacker</a>.  He works
+  for <a href="https://web.archive.org/web/20160309150809/http://www.pov.lt/">Programmers of Vilnius</a>, a small
+  Python/<a href="https://web.archive.org/web/20160309150809/http://dev.zope.org/Zope3">Zope 3</a> startup.  He has a
+  personal home page at <a href="https://web.archive.org/web/20160309150809/http://gedmin.as/">http://gedmin.as</a>.
+  His email is <a href="https://web.archive.org/web/20160309150809/mailto:marius@gedmin.as">marius@gedmin.as</a>.
+  He does not like spam, but is not afraid of it.
+</div>
+
+<hr class="fornoncssbrowsers"/>
+
+<div class="pagenav">
+
+</div>
+<h2 class="day">Thu, 12 Jun 2008</h2>
+
+<h3 class="story" id="hunting-python-memleaks"><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/hunting-python-memleaks.html">Hunting memory leaks in Python</a></h3>
+<div class="story">
+  
+<p>At work the functional test suite of our application used up quite a lot of
+RAM (over 500 megs).  For a long time it was cheaper to buy the developers an
+extra gig of RAM than to spend time hunting down a possible memory leak, but
+finally curiosity overcame me and I started investigating.</p>
+
+<blockquote>
+Warning: long post ahead.  With pictures.
+</blockquote>
+
+
+
+<p>Running a subset of the tests in a loop quickly proved that the memory
+leak is real:</p>
+
+<p><center><img src="https://web.archive.org/web/20160309150809im_/http://mg.pov.lt/test-memory-leak.png" alt="Graph of memory usage versus time for the same test repeated 5 times"/></center></p>
+
+<p>The graph was produced by instrumenting the test runner to record the
+timestamp, memory usage (VmSize from /proc/$pid/status) and the number of
+objects being tracked by the garbage collector (len(gc.get_objects()) in
+a CSV file, and then writing a simple Python program to plot it with
+<a href="https://web.archive.org/web/20160309150809/http://matplotlib.sourceforge.net/">matplotlib</a>.</p>
+
+<p>I love matplotlib for the ease of use, even though sometimes I wish the docs
+were a bit nicer.</p>
+
+<p><em>But wait!</em>, I hear you say, <em>Python is a garbage-collected
+  language!  How can it leak memory?</em></p>
+
+<p>I'm glad you asked.  The trouble is that sometimes an object created by the
+test is referenced from a global variable, and that keeps it from being
+collected.  The tricky thing is to find where that reference comes from, and
+what is the object being referenced.  There are 800 thousand live objects,
+how do you find the offending ones?</p>
+
+<p>It took quite a while to think of a solution.  Finally my coworker Ignas
+suggested drawing object graphs with <a href="https://web.archive.org/web/20160309150809/http://www.graphviz.org/">graphviz</a>,
+and I developed a module with a few convenient helper functions.</p>
+
+<p>I put a breakpoint at the very end of the app and started looking around.
+Here's the number of in-memory object databases:</p>
+
+<pre>
+<span class="pdb">(Pdb)</span> <span class="name">checks</span>.<span class="name">count</span>(<span class="string">'DB'</span>)
+<span class="output">6</span>
+</pre>
+
+<p>There shouldn't be any, or there should be at most one (a global in-memory
+RAM database used for tracking browser sessions or something like that)! Let's
+see what objects are pointing to the last one, limiting the referencing chains
+to 15 objects:</p>
+
+<pre>
+<span class="pdb">(Pdb)</span> <span class="name">checks</span>.<span class="name">show_backrefs</span>(<span class="name">checks</span>.<span class="name">by_type</span>(<span class="string">'DB'</span>)[<span class="number">-1</span>])
+<span class="output">Graph written to objects.dot (185 nodes)</span>
+<span class="output">Image generated as objects.png</span>
+</pre>
+
+<p>The image produces is nice, but large (9760 x 8008 pixels), so I'm not going
+to show it here in full.  Here's a shrunken version:</p>
+
+<p><center><img src="https://web.archive.org/web/20160309150809im_/http://mg.pov.lt/memleak-object-graph-small.png" alt="Object referece graph showing the memory leak"/></center></p>
+
+<p>By the way, GIMP eats up a gig of RAM with it open.</p>
+
+<p>If you could zoom in and pan around, and if you knew the colour code, you'd
+immediatelly notice the green box indicating a module in the top-right corner:</p>
+
+<p><center><img src="https://web.archive.org/web/20160309150809im_/http://mg.pov.lt/memleak-object-graph-module-in-the-corner.png" alt="Part of the object referece graph showing the source of the leak"/></center></p>
+
+<p>Let me show you just the reference chain:</p>
+
+<pre>
+<span class="pdb">(Pdb)</span> <span class="keyword">import</span> <span class="name">inspect</span>
+<span class="pdb">(Pdb)</span> <span class="name">chain</span> = <span class="name">checks</span>.<span class="name">find_backref_chain</span>(<span class="name">checks</span>.<span class="name">by_type</span>(<span class="string">'DB'</span>)[-<span class="number">1</span>], <span class="name">inspect</span>.<span class="name">ismodule</span>)
+<span class="pdb">(Pdb)</span> <span class="name">in_chain</span> = <span class="keyword">lambda</span> <span class="name">x</span>, <span class="name">ids</span>=<span class="name">set</span>(<span class="name">map</span>(<span class="name">id</span>, <span class="name">chain</span>)): <span class="name">id</span>(<span class="name">x</span>) <span class="keyword">in</span> <span class="name">ids</span>
+<span class="pdb">(Pdb)</span> <span class="name">checks</span>.<span class="name">show_backrefs</span>(<span class="name">chain</span>[-<span class="number">1</span>], <span class="name">len</span>(<span class="name">chain</span>), <span class="name">filter</span>=<span class="name">in_chain</span>)
+<span class="output">Graph written to objects.dot (15 nodes)</span>
+<span class="output">Image generated as objects.png</span>
+</pre>
+
+<p><center><img src="https://web.archive.org/web/20160309150809im_/http://mg.pov.lt/memleak-object-chain.png" alt="Chain of objects that keep the DB in memory"/></center></p>
+
+<p>To get rid of this leak I had to clear zope.app.error.error._temp_logs in
+the test tear-down by calling zope.app.error.error._clear():</p>
+
+<p><center><img src="https://web.archive.org/web/20160309150809im_/http://mg.pov.lt/test-memory-leak-is-gone.png" alt="Graph of memory usage versus time for the same test repeated 5 times"/></center></p>
+
+<p>I attribute the slight memory increase on the second repetition to memory
+fragmentation: new objects are allocated, old objects are freed, the total
+number of objects stays the same, but now there are some gaps in the memory
+arena.  This effect disappears on the third and later repetitions, so I'm
+not worrying.</p>
+
+<p>There were a couple of other, smaller memory leaks elsewhere.  At the end of
+the day the full test suite fit in under 200 megs of RAM.</p>
+
+<p>Don't let anyone tell you that <a href="https://web.archive.org/web/20160309150809/http://en.wikipedia.org/wiki/Breadth-first_search">graph theory</a> is
+useless in the real world.  Also, Python's garbage collector's <a href="https://web.archive.org/web/20160309150809/http://python.org/doc/current/lib/module-gc.html">introspection
+powers</a> are awesome!</p>
+
+<p><strong>Update:</strong> see the <a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/python-object-graphs.html">annotated source code
+for the 'checks' module</a>.</p>
+
+<p><strong>Update 2:</strong> the 'checks' module was open-sourced as <a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/objgraph/">objgraph</a>.</p>
+
+<div class="storyfooter">
+  posted at 01:04 | tags:  <a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/python" rel="tag">python</a>  |
+  <a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/hunting-python-memleaks.html">permanent link to this entry</a> |
+  <a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/hunting-python-memleaks.html#comments">4 comments</a>
+</div>
+</div>
+
+<div class="blosxomComments" id="comments">
+
+<div class="blosxomComment" id="c1294664722.27">
+  <img class="avatar" src="https://web.archive.org/web/20160309150809im_/http://www.gravatar.com/avatar/4ac69a311d1918fd2fbe05ca35c79954?s=48&amp;d=mm" alt=""/>
+  <div class="commenttext">
+Hi Marius, <br/>
+<br/>
+thanks for the great post and useful tool. I've played around with it in order to find a memory leak that's been stalling my project, but so far I couldn't track it down yet (although I've narrowed it down).<br/>
+<br/>
+For starters, I would like to ask a question about the example you posted in the docs of objgraph:<br/>
+<br/>
+"def computate_something(_cache={}):<br/>
+...&nbsp; _cache[42] = dict(foo=MyBigFatObject(),<br/>
+...&nbsp; bar=MyBigFatObject())<br/>
+...&nbsp; # a very explicit and easy-to-find "leak" but oh well"<br/>
+<br/>
+Could you explain real quick how this piece of code leads to a memory leak in python? It might be an obvious thing, but I would have expected the GC would detect something like this.<br/>
+<br/>
+Also, I have I question regarding references from "frames". I'm not entirely sure how to interpret the back-reference list that I've generated, as it contains quite a few "frames" along the way back to a module:<br/>
+<br/>
+<a rel="nofollow" href="https://web.archive.org/web/20160309150809/http://dl.dropbox.com/u/7646876/error1.png">http://dl.dropbox.com/u/7646876/error1.png</a><br/>
+<br/>
+Maybe you could shed some light on this, too.<br/>
+<br/>
+Thanks!
+  </div>
+  <div class="commentfooter">
+posted by <strong>chris</strong> at Mon Jan 10 15:05:22 2011<br/>
+  </div>
+</div>
+
+<div class="blosxomComment blosxomOwnerComment" id="c1294680988.33">
+  <img class="avatar" src="https://web.archive.org/web/20160309150809im_/http://www.gravatar.com/avatar/5faa8f7f53d3ac658c4dfa4bd04a2ee3?s=48&amp;d=mm" alt=""/>
+  <div class="commenttext">
+It's not a real leak (which is why I put "leak" in quotes), since the object is still reachable: <tt>computate_something.func_defaults[0]</tt> is the _cache dictionary, and it holds a reference to two <tt>MyBigFatObject</tt>s.<br/>
+<br/>
+Frames are stack frames; their appearance means that some functions have local variables that directly or indirectly refer to your object.<br/>
+<br/>
+I see two references to your <tt>Options</tt> object: one is a global variable <tt>obj</tt>, defined in the main script, and another is a local variable <tt>eval_data['ptr']</tt>, holding a huge list (320 thousand items, wow!), which is kept in memory because at some point an exception happened, and the traceback was stashed into <tt>sys.exc_traceback</tt> (an internal variable that you shouldn't normally access, using <tt>sys.exc_info()</tt> instead).<br/>
+<br/>
+Even if the exception was caught and handled successfully, the <tt>sys</tt> module always holds a reference to the last exception and its traceback -- and with the traceback, all the local variables in all the functions.&nbsp; There are ways to make sure exceptions don't lead to excessive memory usage: <tt>del</tt> local variables at the end of a function (if those variables hold onto big chunks of memory), or clear <tt>sys.exc_traceback</tt> by, e.g., raising and immediately catching a new exception after you've done with the computation.
+  </div>
+  <div class="commentfooter">
+posted by <strong><a rel="nofollow" href="https://web.archive.org/web/20160309150809/http://gedmin.as/">Marius Gedminas</a></strong> at Mon Jan 10 19:36:28 2011<br/>
+  </div>
+</div>
+
+<div class="blosxomComment" id="c1312510782.39">
+  <img class="avatar" src="https://web.archive.org/web/20160309150809im_/http://www.gravatar.com/avatar/b327f3b711c0f1838f99bcd4bee74ea8?s=48&amp;d=mm" alt=""/>
+  <div class="commenttext">
+Hi thanks for the tool. I just blogged about my experience with it too.<br/>
+<br/>
+<a rel="nofollow" href="https://web.archive.org/web/20160309150809/http://www.stuartmitchell.com/journal/2011/8/5/finding-python-memory-leaks-with-objgraph.html">http://www.stuartmitchell.com/journal/2011/8/5/finding-python-memory-leaks-with-objgraph.html</a>
+  </div>
+  <div class="commentfooter">
+posted by <strong><a rel="nofollow" href="https://web.archive.org/web/20160309150809/http://stuartmitchell.com/">Stuart Mitchell</a></strong> at Fri Aug  5 05:19:42 2011<br/>
+  </div>
+</div>
+
+<div class="blosxomComment" id="c1359382048.56">
+  <img class="avatar" src="https://web.archive.org/web/20160309150809im_/http://www.gravatar.com/avatar/5598ce0339aa075eed702cda2b003d6d?s=48&amp;d=mm" alt=""/>
+  <div class="commenttext">
+Great tool indead, you saved me !<br/>
+<br/>
+I had numpy-subclass arrays that did not delete because they reference some slice views of them-selves. And I could not find that by my-self in thousands lines of old code...<br/>
+<br/>
+By the way, it would be nice to have some idea of how much memory space is spend (e.g. per class-type). Usually, one only start thinking of memory leak if too much memory is taken. I found that:<br/>
+<a rel="nofollow" href="https://web.archive.org/web/20160309150809/http://code.activestate.com/recipes/546530/">http://code.activestate.com/recipes/546530/</a><br/>
+but don't know if it can be of any use.<br/>
+<br/>
+Thanks again, a lot !
+  </div>
+  <div class="commentfooter">
+posted by <strong>julien</strong> at Mon Jan 28 16:07:28 2013<br/>
+  </div>
+</div>
+<p id="comment-anchor">
+  <b></b>
+</p>
+
+<div class="blosxomCommentForm">
+<!-- To disable AJAX commenting, remove the onsubmit and onclick handlers. -->
+<form method="post" action="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/hunting-python-memleaks.html" accept-charset="UTF-8" name="comments_form" id="comments_form" onsubmit="return false;">
+
+<input type="hidden" name="secretToken" id="secretTokenInput" value="pleaseDontSpam"/>
+<input name="parent" type="hidden" value="hunting-python-memleaks"/>
+<input name="title" type="hidden" value="Hunting memory leaks in Python"/>
+
+<div class="field">
+<span class="label">Name</span>
+<span class="hint">(required)</span>
+<br/>
+<input maxlength="50" name="author" id="comment-author" size="50" type="text" value=""/><br/>
+<br/>
+</div>
+
+<div class="field">
+<span class="label">E-mail</span>
+<span class="hint">(will not be shown)</span>
+<br/>
+<input maxlength="75" name="email" id="comment-email" size="50" type="text" value=""/><br/>
+<br/>
+</div>
+
+<div class="field">
+<span class="label">URL</span>
+<br/>
+<input maxlength="100" name="url" id="comment-url" size="50" type="text" value=""/><br/>
+<br/>
+</div>
+
+<div class="field">
+<span class="label">Comment</span>
+<span class="hint">(some HTML allowed)</span>
+<br/>
+<textarea cols="50" name="body" id="comment-body" rows="10"></textarea><br/>
+<br/>
+</div>
+
+<div class="buttons">
+<input value="Preview" name="preview" type="submit" id="preview" accesskey="r" onclick="send_comment('preview');"/>
+<input value="Submit" name="submit" type="submit" id="post" accesskey="s" onclick="send_comment('post');"/>
+</div>
+</form>
+
+<script type="text/javascript">
+// used by check_javascript.py. this is almost entirely backwards compatible,
+// back to 4.x browsers.
+document.getElementById("secretTokenInput").value = "Random notes from mg";
+</script>
+
+<script type="text/javascript" src="/web/20160309150809js_/http://mg.pov.lt/blog/comments.js"></script>
+
+</div> <!-- ends blosxomCommentForm div -->
+
+</div> <!-- ends blosxomComments div -->
+<div class="pagenav">
+
+</div>
+
+<hr class="fornoncssbrowsers"/>
+
+<div class="sidebar">
+  <div class="picture">
+    <img src="https://web.archive.org/web/20160309150809im_/http://mg.pov.lt/mg.png" alt="A picture of me" border="0"/>
+  </div>
+
+  <div class="tree">
+    <h2>Archives</h2>
+<ul class="tree">
+  <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2013/">2013</a> (2)
+    <ul class="subtree collapsed">
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2013/11/">November</a> (1)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/rackspace-oss.html">Rackspace OSS</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2013/07/">July</a> (1)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/sphinx-edit-on-github.html">Adding "Edit on GitHub" links to Sphinx pages</a></li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2012/">2012</a> (5)
+    <ul class="subtree collapsed">
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2012/04/">April</a> (1)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/logging-levels.html">Logging levels and hierarchies</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2012/03/">March</a> (2)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/trace-and-fork.html">trace.py and os.fork()</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/logging-fileconfig-gotcha.html">logging.config.fileConfig gotcha</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2012/02/">February</a> (2)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/eazysvn-git-migration-success.html">Converting a gnarly SVN repository to GIT: success!</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/eazysvn-git-migration.html">Converting a gnarly SVN repository to GIT: FAIL.</a></li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2011/">2011</a> (3)
+    <ul class="subtree collapsed">
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2011/10/">October</a> (1)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/n9-hackathon.html">N9 Hackathon in Vienna</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2011/07/">July</a> (2)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/harmattan-fbreader.html">Porting FBReader to Meego 1.2 Harmattan</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/n950.html">Nokia N950</a></li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2010/">2010</a> (16)
+    <ul class="subtree collapsed">
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2010/12/">December</a> (1)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/december-updates-2010.html">Stuff I've been doing recently</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2010/08/">August</a> (3)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/profiling-with-dozer.html">Profiling with Dozer</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/capturing-logs-with-dozer.html">Capturing logs with Dozer</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/irclog2html-on-pypi.html">irclog2html is now on PyPI</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2010/07/">July</a> (3)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/android-fbreader-epub-problem.html">Serving ePub files to Android 1.6</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/n900-connection-sharing.html">N900 connection sharing the hard way</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/no-module-md5.html">ImportError: No module named _md5</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2010/05/">May</a> (1)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/booting-iso-from-usb.html">Booting ISO images from a USB drive</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2010/04/">April</a> (2)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/web-frameworks-useful.html">Re: Web frameworks considered useful.</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/grok-book-review.html">Review: Grok 1.0 Web Development</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2010/03/">March</a> (5)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/python-testing-review.html">Review: Python Testing: Beginner's Guide</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/you-gotta-love-profiling.html">You've got to love profiling</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/volunteeritis.html">Bye, bye, free time!</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/maemo-flood.html">Oopsie</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/weekly-zope-irc-meeting.html">Weekly Zope developer IRC meetings</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2010/01/">January</a> (1)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/latin1-or-cp1252.html">Latin-1 or Windows-1252?</a></li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2009/">2009</a> (32)
+    <ul class="subtree collapsed">
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2009/12/">December</a> (3)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/gtimelog-not-dead-yet.html">GTimeLog: not dead yet!</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/unix-is-an-ide.html">Unix is an IDE, or my Vim plugins</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/zope3-displaying-multiline-text.html">Displaying multiline text in Zope 3</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2009/10/">October</a> (2)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/maemo-summit-2009.html">Maemo Summit 2009</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/escaping-hotel-firewall.html">Escaping hotel firewalls with ssh over port 80</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2009/09/">September</a> (4)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/pylons-and-sql-migration.html">Pylons and SQL schema migration</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/pylons-with-buildout-2.html">Pylons with zc.buildout, continued</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/pylons-with-buildout.html">Starting a Pylons project with zc.buildout</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/footnotes-done-well.html">Footnotes done well</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2009/08/">August</a> (1)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/buildout-local-config.html">Local changes to buildout.cfg</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2009/07/">July</a> (2)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/happenings.html">Python-related updates for the last couple of months</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/disk-free.html">df</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2009/05/">May</a> (4)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/suprising-old-style-classes.html">Surprising old-style class behaviour</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/blog-comments.html">Enabling comments in PyBlosxom</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/hardy-nfs-sighup.html">Buildbot issues on Ubuntu Hardy</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/expert-python-programming.html">Expert Python Programming</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2009/04/">April</a> (5)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/filing-bugs-on-gui-apps.html">Filing bugs on GUI apps</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/upgrade-to-jaunty.html">Upgrade to Ubuntu Jaunty</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/smooth-bug-reporting.html">Submitting patches the Launchpad way</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/baking-css-into-rss.html">Baking CSS into RSS</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/bug-of-the-day.html">Bug of the day</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2009/03/">March</a> (2)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/fennec-beta-1.html">Tying out Fennec Beta 1</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/x-ate-my-keyboard-again.html">X ate my keyboard, again</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2009/02/">February</a> (7)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/xorg-snafu.html">X.org and stuck Ctrl</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/largest-apps-2.html">Largest apps on my laptop #2</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/largest-apps.html">Largest apps on my laptop</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/keep-the-buildbot-green.html">Keep the buildbot green!</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/playing-with-pylons.html">Playing with Pylons</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/ebooks-are-the-future.html">E-books are the future</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/huawei-e220.html">Huawei E220 USB 3G modem</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2009/01/">January</a> (2)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/exception-wtf.html">pydoc SyntaxError</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/export-to-ms-word.html">Exporting to MS Word</a></li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li> <span class="expander">&#x25BC;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2008/">2008</a> (28)
+    <ul class="subtree">
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2008/11/">November</a> (1)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/volume-control.html">Volume control keys on Ubuntu</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2008/10/">October</a> (4)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/all-hail-android.html">All hail our robotic overlords?</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/on-narrative-doctests.html">On narrative doctests</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/python-operator-chaining.html">Chaining operators in Python</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/n810-death-and-rebirth.html">N810: death and rebirth</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2008/09/">September</a> (2)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/users-and-developers.html">Users and Developers</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/maemo-summit.html">Maemo Summit 2008</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2008/08/">August</a> (1)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/netspeed-applet.html">Fixing the netspeed applet</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2008/07/">July</a> (6)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/subprocess-in-2.4.html">Beware Python 2.4's subprocess module</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/releases.html">Eazysvn 1.8.0, restview 1.0.0</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/dbus-frustration.html">D-bus frustration</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/europython2008-sprints-day-2.html">EuroPython 2008 sprints, day 2</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/europython2008-sprints-day-1.html">EuroPython 2008 sprints, day 1</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/europython2008.html">EuroPython 2008 highlights</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BC;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2008/06/">June</a> (8)
+      <ul class="subsubtree">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/mango-lassi.html">Testing Mango Lassi on Hardy</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/asus-eeepc-900.html">Asus EeePC 900</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/object-graphs-with-graphviz.html">Object graphs with graphviz</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/out-of-touch.html">Out of touch with reality</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/python-object-graphs.html">Python object graphs</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/hunting-python-memleaks.html">Hunting memory leaks in Python</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/powertop-as-gnome-applet.html">PowerTop as GNOME applet?</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/linuxtag-day-4.html">LinuxTag 2008, day 4</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2008/05/">May</a> (3)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/linuxtag-day-3.html">LinuxTag 2008, day 3</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/linuxtag-day-2.html">LinuxTag 2008, day 2</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/linuxtag-day-1.html">LinuxTag 2008</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2008/04/">April</a> (1)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/shell-history-stats.html">Shell commands I use most</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2008/03/">March</a> (1)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/n810.html">Happiness is...</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2008/01/">January</a> (1)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/python-zipfile.html">Discovery of the day</a></li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2007/">2007</a> (23)
+    <ul class="subtree collapsed">
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2007/12/">December</a> (3)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/nokia-complaint.html">Nokia can has web server pls?</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/linux-on-t23.html">Linux on a Thinkpad T23</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/coverage-testing.html">Testing unit test coverage</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2007/11/">November</a> (2)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/easy-easy-install.html">Easy easy_install on Ubuntu Gutsy</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/profilehooks-1.1.html">profilehooks 1.1</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2007/09/">September</a> (4)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/simplifying-dependency-graphs.html">Simplifying dependency graphs with graphviz</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/foliage-sprint-day-2.html">Foliage sprint day 2</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/foliage-sprint-day-1.html">Foliage sprint day 1</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/foliage-sprint.html">Foliage Sprint</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2007/08/">August</a> (1)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/t61.html">New laptop: Lenovo T61</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2007/07/">July</a> (4)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/europython-2007-sprints-3.html">Post-EuroPython 2007 sprint day 3</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/europython-2007-sprints-2.html">Post-EuroPython 2007 sprint day 2</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/europython-2007-sprints-1.html">Post-EuroPython 2007 sprint day 1</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/europython-2007.html">EuroPython 2007</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2007/06/">June</a> (1)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/zope3-custom-traversal.html">Custom traversal in Zope 3</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2007/04/">April</a> (1)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/feisty-upgrade.html">Upgrade to Feisty Fawn</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2007/03/">March</a> (3)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/benchmarking-zope3-apps.html">Benchmarking Zope 3 apps</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/the-future-is-free.html">The Future is Free, and Also White, with Bright Trim</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/fbreader-toc-marks.html">TOC marks for FBReader</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2007/02/">February</a> (1)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/n800.html">I've got a Nokia N800!</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2007/01/">January</a> (3)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/sleepless-nights.html">Sleepless nights</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/zope-testing.html">zope.testing</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/random-hackery.html">Random hackery</a></li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2006/">2006</a> (19)
+    <ul class="subtree collapsed">
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2006/12/">December</a> (4)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/gnome-startup.html">GNOME startup time</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/christmas-2006.html">Merry Christmas</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/n770-usb-power.html">Nokia 770 + USB power injector</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/profilehooks-1.0.html">profilehooks 1.0</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2006/11/">November</a> (1)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/xcompmgr.html">xcompmgr, or Ooh, shiny!</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2006/07/">July</a> (3)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/nokia770-os2006.html">Another 770</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/formlib-adding.html">Easy Zope 3 forms with formlib: add forms.</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/ep2006.html">EuroPython 2006</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2006/06/">June</a> (1)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/pov-penguin.html">PoV Penguin</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2006/05/">May</a> (2)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/metasearch-humour.html">Metasearch humour</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/maemo-mapper.html">Maemo Mapper</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2006/04/">April</a> (2)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/nokia-again.html">Nokia 770: second impressions</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/nokia770.html">I've got a Nokia 770!</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2006/03/">March</a> (3)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/bash-prompt.html">Bash prompts: showing the command in the window title</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/dual-headed-productivity.html">Dual-Headed Productivity</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/sysadmin-diary.html">Sysadmin's diary</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2006/02/">February</a> (1)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/unbreak-firefox-address-bar.html">Unbreaking Firefox's address bar</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2006/01/">January</a> (2)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/lightspeed-edge-100m.html">Lightspeed EDGE-100M GPRS PCMCIA Card on Linux</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/pyspacewar-lives.html">PySpaceWar lives!</a></li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2005/">2005</a> (22)
+    <ul class="subtree collapsed">
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2005/12/">December</a> (3)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/seven-segments.html">Seven segments</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/svn-troubles.html">Subversion troubles</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/home-dir-in-svn.html">Putting ~ into Subversion</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2005/10/">October</a> (2)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/open-wifi.html">Open WiFi</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/beagle.html">Beagle on Breezy</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2005/09/">September</a> (4)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/own-server.html">Running your own server</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/jabber-via-xchat.html">Using Jabber with X-Chat</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/gnome-terminal-text-effects.html">GNOME Terminal text shadow</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/xsel.html">xsel: the power of Unix</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2005/05/">May</a> (1)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/am-i-stupid.html">Another silly quiz</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2005/03/">March</a> (4)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/commonly-confused-words.html">I took the commonly confused words test</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/measuring-disk-speed.html">Measuring disk speed</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/zope3-request-recorder.html">Zope 3 request recorder</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/banana-republic.html">There's no democracy in the EU</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2005/02/">February</a> (3)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/planet-mg.html">Planet Mg: foray into JavaScript land</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/ubuntu-screensaver.html">Yummy Ubuntu screensaver</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/zope3-generations.html">How to use Zope 3 generations</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2005/01/">January</a> (5)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/weird-quotient.html">Weird quotient</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/the-power-of-web-apps.html">The power of web applications</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/pyblosxom-setup.html">More on PyBlosxom</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/irc-logs.html">IRC logs</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/irc-bots.html">Looking for an IRC bot</a></li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2004/">2004</a> (13)
+    <ul class="subtree collapsed">
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2004/12/">December</a> (2)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/profiling.html">Profiling/tracing a single function</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/diffing-dicts.html">Diffing dicts</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2004/11/">November</a> (2)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/hacking-tools.html">Tools of the trade</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/pypy-sprint.html">PyPy sprint in Vilnius</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2004/10/">October</a> (4)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/mailman-spam.html">Removing spam from Mailman's queue</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/subversion-annoyances.html">Subversion annoyances</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/setting-umask-for-subversion.html">Setting umask for Subversion</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/unicode-emails-in-python.html">Sending Unicode emails in Python</a></li>
+      </ul>
+    </li>
+    <li> <span class="expander">&#x25BA;</span>&nbsp;<a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/2004/09/">September</a> (5)
+      <ul class="subsubtree collapsed">
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/pyblosxom-badness.html">Pyblosxom badness</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/world-of-ends.html">World of Ends - Understanding the Internet</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/footnotes-on-the-web.html">Footnotes on the Web</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/using-schooltool-test-runner.html">Using the SchoolTool test runner to run Zope 3 tests</a></li>
+        <li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/fashion-victim.html">Fashion victim</a></li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+</ul>
+  </div>
+
+  <div class="best">
+    <h2>Author's pick</h2>
+    <ul>
+      <li><a href="/web/20160309150809/http://mg.pov.lt/blog/booting-iso-from-usb.html">Booting ISO images from a USB drive</a></li>
+      <li><a href="/web/20160309150809/http://mg.pov.lt/blog/you-gotta-love-profiling.html">You've got to love profiling</a></li>
+      <li><a href="/web/20160309150809/http://mg.pov.lt/blog/unix-is-an-ide.html">Unix is an IDE, or my Vim plugins</a></li>
+      <li><a href="/web/20160309150809/http://mg.pov.lt/blog/hunting-python-memleaks.html">Hunting memory leaks in Python</a></li>
+      <!--  <li><a href="/blog/home-dir-in-svn.html">Putting ~ into Subversion</a></li> -->
+      <li><a href="/web/20160309150809/http://mg.pov.lt/blog/benchmarking-zope3-apps.html">Benchmarking Zope 3 apps</a></li>
+      <li><a href="/web/20160309150809/http://mg.pov.lt/blog/profiling.html">Profiling/tracing a single function</a></li>
+      <li><a href="/web/20160309150809/http://mg.pov.lt/blog/hacking-tools.html">Tools of the trade</a></li>
+      <!-- <li><a href="/blog/unicode-emails-in-python.html">Sending Unicode emails in Python</a></li> -->
+      <li><a href="/web/20160309150809/http://mg.pov.lt/blog/sysadmin-diary.html">Sysadmin's diary</a></li>
+    </ul>
+  </div>
+
+  <div class="tags">
+    <h2>Tags</h2>
+    <ul>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/python" title="80 posts tagged python" style="font-size: 150%">python</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/ubuntu" title="42 posts tagged ubuntu" style="font-size: 122%">ubuntu</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/maemo" title="29 posts tagged maemo" style="font-size: 109%">maemo</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/silly" title="6 posts tagged silly" style="font-size: 75%">silly</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/web" title="4 posts tagged web" style="font-size: 69%">web</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/pyblosxom" title="4 posts tagged pyblosxom" style="font-size: 69%">pyblosxom</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/pylons" title="4 posts tagged pylons" style="font-size: 69%">pylons</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/linux" title="4 posts tagged linux" style="font-size: 69%">linux</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/gnome" title="4 posts tagged gnome" style="font-size: 69%">gnome</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/zope3" title="3 posts tagged zope3" style="font-size: 65%">zope3</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/review" title="3 posts tagged review" style="font-size: 65%">review</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/fbreader" title="2 posts tagged fbreader" style="font-size: 61%">fbreader</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/random" title="2 posts tagged random" style="font-size: 61%">random</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/git" title="2 posts tagged git" style="font-size: 61%">git</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/buildout" title="2 posts tagged buildout" style="font-size: 61%">buildout</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/subversion" title="2 posts tagged subversion" style="font-size: 61%">subversion</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/android" title="2 posts tagged android" style="font-size: 61%">android</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/javascript" title="2 posts tagged javascript" style="font-size: 61%">javascript</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/svn" title="2 posts tagged svn" style="font-size: 61%">svn</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/gtimelog" title="2 posts tagged gtimelog" style="font-size: 61%">gtimelog</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/office" title="1 post tagged office" style="font-size: 50%">office</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/vim" title="1 post tagged vim" style="font-size: 50%">vim</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/meta" title="1 post tagged meta" style="font-size: 50%">meta</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/buildbot" title="1 post tagged buildbot" style="font-size: 50%">buildbot</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/politics" title="1 post tagged politics" style="font-size: 50%">politics</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/zope" title="1 post tagged zope" style="font-size: 50%">zope</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/life" title="1 post tagged life" style="font-size: 50%">life</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/sqlalchemy" title="1 post tagged sqlalchemy" style="font-size: 50%">sqlalchemy</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/github" title="1 post tagged github" style="font-size: 50%">github</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/sphinx" title="1 post tagged sphinx" style="font-size: 50%">sphinx</a></li>
+<li><a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/tag/untagged" title="1 post tagged untagged" style="font-size: 50%">untagged</a></li>
+    </ul>
+  </div>
+
+<!-- this link has bitrotted
+  <div class="technorati">
+    <a href="http://technorati.com/claim/y8q4f6dms2" rel="me">Technorati Profile</a>
+  </div>
+  -->
+
+  <div class="rss">
+    <a href="https://web.archive.org/web/20160309150809/http://mg.pov.lt/blog/index.rss">RSS</a>
+  </div>
+
+  <div class="poweredby">
+    <a href="https://web.archive.org/web/20160309150809/http://pyblosxom.bluesock.org/">
+      <img src="https://web.archive.org/web/20160309150809im_/http://mg.pov.lt/pb_pyblosxom.gif" alt="Made with PyBlosxom" border="0"/>
+    </a>
+  </div>
+</div>
+
+<hr class="footer"/>
+
+<div class="footer">
+  Copyright &copy; 2004&ndash;2011 Marius Gedminas.  This page uses
+  <a href="https://web.archive.org/web/20160309150809/http://validator.w3.org/check/referer">valid</a> HTML and CSS,
+  I hope.
+  <br/>
+  Powered by <a href="https://web.archive.org/web/20160309150809/http://pyblosxom.bluesock.org/">PyBlosxom</a>
+  with a few <a href="/web/20160309150809/http://mg.pov.lt/blog/plugin_info">plugins</a>.
+  <a href="https://web.archive.org/web/20160309150809/http://code.launchpad.net/~mgedmin/+junk/blog">Source</a>.
+<!-- already exists in the sidebar:
+  <a href="http://mg.pov.lt/blog/index.rss">RSS feed</a>.
+  -->
+</div>
+
+</body>
+</html>
+<!--
+     FILE ARCHIVED ON 15:08:09 Mar 09, 2016 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 06:07:25 Dec 03, 2022.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->
+<!--
+playback timings (ms):
+  captures_list: 4260.912
+  exclusion.robots: 0.102
+  exclusion.robots.policy: 0.092
+  cdx.remote: 0.076
+  esindex: 0.012
+  LoadShardBlock: 276.758 (3)
+  PetaboxLoader3.datanode: 171.812 (4)
+  CDXLines.iter: 20.31 (3)
+  PetaboxLoader3.resolve: 232.746 (2)
+  load_resource: 239.382
+-->
