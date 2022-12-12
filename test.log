@@ -1,0 +1,370 @@
+2022-12-08 13:44:45,563 - np_leak.py[line:26] - INFO: 
+refs:
+722	<class 'dict'> {94219840504992: <weakref at 0x7f1831e48ef0; to 'type' at 0x55b1441fc4a0 (type)>, 94219840612480: <w
+600	<class 'dict'> {'__name__': 'numpy', '__doc__': '\nNumPy\n=====\n\nProvides\n  1. An array object of arbitrary homo
+556	<class 'list'> ['ModuleDeprecationWarning', 'VisibleDeprecationWarning', '__version__', 'show_config', 'char', 'rec
+423	<class 'dict'> {'__name__': 'numpy.core', '__doc__': '\nContains the core of NumPy: ndarray, ufuncs, dtypes, etc.\n
+413	<class 'dict'> {'__name__': 'numpy.core.numeric', '__doc__': None, '__package__': 'numpy.core', '__loader__': <_fro
+387	<class 'dict'> {'__name__': 'os', '__doc__': "OS routines for NT or Posix depending on what system we're on.\n\nThi
+375	<class 'list'> ['char', 'rec', 'memmap', 'newaxis', 'ndarray', 'flatiter', 'nditer', 'nested_iters', 'ufunc', 'aran
+362	<class 'list'> [b'import', b'numpy', 'numpy', b'as', 'numpy', b'np', 'np', b'', b'from', b'mem_top', 'mem_top', b'i
+357	<class 'list'> ['altsep', 'curdir', 'pardir', 'sep', 'pathsep', 'linesep', 'defpath', 'name', 'path', 'devnull', 'S
+354	<class 'list'> ['newaxis', 'ndarray', 'flatiter', 'nditer', 'nested_iters', 'ufunc', 'arange', 'array', 'asarray', 
+
+bytes:
+18520	 {94219840504992: <weakref at 0x7f1831e48ef0; to 'type' at 0x55b1441fc4a0 (type)>, 94219840612480: <w
+18520	 {'__name__': 'os', '__doc__': "OS routines for NT or Posix depending on what system we're on.\n\nThi
+18520	 {'__name__': 'numpy', '__doc__': '\nNumPy\n=====\n\nProvides\n  1. An array object of arbitrary homo
+18520	 {'__name__': 'numpy.core', '__doc__': '\nContains the core of NumPy: ndarray, ufuncs, dtypes, etc.\n
+18520	 {'__name__': 'numpy.core.numeric', '__doc__': None, '__package__': 'numpy.core', '__loader__': <_fro
+9312	 {'sys': <module 'sys' (built-in)>, 'builtins': <module 'builtins' (built-in)>, '_frozen_importlib': 
+9312	 {'__name__': 'posix', '__doc__': 'This module provides access to operating system functionality that
+9312	 {'__name__': 'numpy.core.multiarray', '__doc__': '\nCreate the numpy.core.multiarray namespace for b
+9312	 {'__name__': 'numpy.core._multiarray_umath', '__doc__': None, '__package__': 'numpy.core', '__loader
+9312	 {'__name__': 'numpy.core._multiarray_umath', '__doc__': None, '__package__': None, '__loader__': Non
+
+types:
+4908	 <class 'function'>
+2288	 <class 'dict'>
+2184	 <class 'wrapper_descriptor'>
+1753	 <class 'tuple'>
+1271	 <class 'cell'>
+1204	 <class 'builtin_function_or_method'>
+1193	 <class 'method_descriptor'>
+1089	 <class 'weakref'>
+818	 <class 'getset_descriptor'>
+481	 <class 'type'>
+
+2022-12-08 13:44:46,281 - np_leak.py[line:26] - INFO: 
+refs:
+722	<class 'dict'> {94219840504992: <weakref at 0x7f1831e48ef0; to 'type' at 0x55b1441fc4a0 (type)>, 94219840612480: <w
+600	<class 'dict'> {'__name__': 'numpy', '__doc__': '\nNumPy\n=====\n\nProvides\n  1. An array object of arbitrary homo
+556	<class 'list'> ['ModuleDeprecationWarning', 'VisibleDeprecationWarning', '__version__', 'show_config', 'char', 'rec
+423	<class 'dict'> {'__name__': 'numpy.core', '__doc__': '\nContains the core of NumPy: ndarray, ufuncs, dtypes, etc.\n
+413	<class 'dict'> {'__name__': 'numpy.core.numeric', '__doc__': None, '__package__': 'numpy.core', '__loader__': <_fro
+387	<class 'dict'> {'__name__': 'os', '__doc__': "OS routines for NT or Posix depending on what system we're on.\n\nThi
+375	<class 'list'> ['char', 'rec', 'memmap', 'newaxis', 'ndarray', 'flatiter', 'nditer', 'nested_iters', 'ufunc', 'aran
+362	<class 'list'> [b'import', b'numpy', 'numpy', b'as', 'numpy', b'np', 'np', b'', b'from', b'mem_top', 'mem_top', b'i
+357	<class 'list'> ['altsep', 'curdir', 'pardir', 'sep', 'pathsep', 'linesep', 'defpath', 'name', 'path', 'devnull', 'S
+354	<class 'list'> ['newaxis', 'ndarray', 'flatiter', 'nditer', 'nested_iters', 'ufunc', 'arange', 'array', 'asarray', 
+
+bytes:
+18520	 {94219840504992: <weakref at 0x7f1831e48ef0; to 'type' at 0x55b1441fc4a0 (type)>, 94219840612480: <w
+18520	 {'__name__': 'os', '__doc__': "OS routines for NT or Posix depending on what system we're on.\n\nThi
+18520	 {'__name__': 'numpy', '__doc__': '\nNumPy\n=====\n\nProvides\n  1. An array object of arbitrary homo
+18520	 {'__name__': 'numpy.core', '__doc__': '\nContains the core of NumPy: ndarray, ufuncs, dtypes, etc.\n
+18520	 {'__name__': 'numpy.core.numeric', '__doc__': None, '__package__': 'numpy.core', '__loader__': <_fro
+9312	 {'sys': <module 'sys' (built-in)>, 'builtins': <module 'builtins' (built-in)>, '_frozen_importlib': 
+9312	 {'__name__': 'posix', '__doc__': 'This module provides access to operating system functionality that
+9312	 {'__name__': 'numpy.core.multiarray', '__doc__': '\nCreate the numpy.core.multiarray namespace for b
+9312	 {'__name__': 'numpy.core._multiarray_umath', '__doc__': None, '__package__': 'numpy.core', '__loader
+9312	 {'__name__': 'numpy.core._multiarray_umath', '__doc__': None, '__package__': None, '__loader__': Non
+
+types:
+4908	 <class 'function'>
+2288	 <class 'dict'>
+2184	 <class 'wrapper_descriptor'>
+1753	 <class 'tuple'>
+1271	 <class 'cell'>
+1204	 <class 'builtin_function_or_method'>
+1193	 <class 'method_descriptor'>
+1089	 <class 'weakref'>
+818	 <class 'getset_descriptor'>
+481	 <class 'type'>
+
+2022-12-08 13:44:46,969 - np_leak.py[line:26] - INFO: 
+refs:
+722	<class 'dict'> {94219840504992: <weakref at 0x7f1831e48ef0; to 'type' at 0x55b1441fc4a0 (type)>, 94219840612480: <w
+600	<class 'dict'> {'__name__': 'numpy', '__doc__': '\nNumPy\n=====\n\nProvides\n  1. An array object of arbitrary homo
+556	<class 'list'> ['ModuleDeprecationWarning', 'VisibleDeprecationWarning', '__version__', 'show_config', 'char', 'rec
+423	<class 'dict'> {'__name__': 'numpy.core', '__doc__': '\nContains the core of NumPy: ndarray, ufuncs, dtypes, etc.\n
+413	<class 'dict'> {'__name__': 'numpy.core.numeric', '__doc__': None, '__package__': 'numpy.core', '__loader__': <_fro
+387	<class 'dict'> {'__name__': 'os', '__doc__': "OS routines for NT or Posix depending on what system we're on.\n\nThi
+375	<class 'list'> ['char', 'rec', 'memmap', 'newaxis', 'ndarray', 'flatiter', 'nditer', 'nested_iters', 'ufunc', 'aran
+362	<class 'list'> [b'import', b'numpy', 'numpy', b'as', 'numpy', b'np', 'np', b'', b'from', b'mem_top', 'mem_top', b'i
+357	<class 'list'> ['altsep', 'curdir', 'pardir', 'sep', 'pathsep', 'linesep', 'defpath', 'name', 'path', 'devnull', 'S
+354	<class 'list'> ['newaxis', 'ndarray', 'flatiter', 'nditer', 'nested_iters', 'ufunc', 'arange', 'array', 'asarray', 
+
+bytes:
+18520	 {94219840504992: <weakref at 0x7f1831e48ef0; to 'type' at 0x55b1441fc4a0 (type)>, 94219840612480: <w
+18520	 {'__name__': 'os', '__doc__': "OS routines for NT or Posix depending on what system we're on.\n\nThi
+18520	 {'__name__': 'numpy', '__doc__': '\nNumPy\n=====\n\nProvides\n  1. An array object of arbitrary homo
+18520	 {'__name__': 'numpy.core', '__doc__': '\nContains the core of NumPy: ndarray, ufuncs, dtypes, etc.\n
+18520	 {'__name__': 'numpy.core.numeric', '__doc__': None, '__package__': 'numpy.core', '__loader__': <_fro
+9312	 {'sys': <module 'sys' (built-in)>, 'builtins': <module 'builtins' (built-in)>, '_frozen_importlib': 
+9312	 {'__name__': 'posix', '__doc__': 'This module provides access to operating system functionality that
+9312	 {'__name__': 'numpy.core.multiarray', '__doc__': '\nCreate the numpy.core.multiarray namespace for b
+9312	 {'__name__': 'numpy.core._multiarray_umath', '__doc__': None, '__package__': 'numpy.core', '__loader
+9312	 {'__name__': 'numpy.core._multiarray_umath', '__doc__': None, '__package__': None, '__loader__': Non
+
+types:
+4908	 <class 'function'>
+2288	 <class 'dict'>
+2184	 <class 'wrapper_descriptor'>
+1753	 <class 'tuple'>
+1271	 <class 'cell'>
+1204	 <class 'builtin_function_or_method'>
+1193	 <class 'method_descriptor'>
+1089	 <class 'weakref'>
+818	 <class 'getset_descriptor'>
+481	 <class 'type'>
+
+2022-12-08 13:44:47,665 - np_leak.py[line:26] - INFO: 
+refs:
+722	<class 'dict'> {94219840504992: <weakref at 0x7f1831e48ef0; to 'type' at 0x55b1441fc4a0 (type)>, 94219840612480: <w
+600	<class 'dict'> {'__name__': 'numpy', '__doc__': '\nNumPy\n=====\n\nProvides\n  1. An array object of arbitrary homo
+556	<class 'list'> ['ModuleDeprecationWarning', 'VisibleDeprecationWarning', '__version__', 'show_config', 'char', 'rec
+423	<class 'dict'> {'__name__': 'numpy.core', '__doc__': '\nContains the core of NumPy: ndarray, ufuncs, dtypes, etc.\n
+413	<class 'dict'> {'__name__': 'numpy.core.numeric', '__doc__': None, '__package__': 'numpy.core', '__loader__': <_fro
+387	<class 'dict'> {'__name__': 'os', '__doc__': "OS routines for NT or Posix depending on what system we're on.\n\nThi
+375	<class 'list'> ['char', 'rec', 'memmap', 'newaxis', 'ndarray', 'flatiter', 'nditer', 'nested_iters', 'ufunc', 'aran
+362	<class 'list'> [b'import', b'numpy', 'numpy', b'as', 'numpy', b'np', 'np', b'', b'from', b'mem_top', 'mem_top', b'i
+357	<class 'list'> ['altsep', 'curdir', 'pardir', 'sep', 'pathsep', 'linesep', 'defpath', 'name', 'path', 'devnull', 'S
+354	<class 'list'> ['newaxis', 'ndarray', 'flatiter', 'nditer', 'nested_iters', 'ufunc', 'arange', 'array', 'asarray', 
+
+bytes:
+18520	 {94219840504992: <weakref at 0x7f1831e48ef0; to 'type' at 0x55b1441fc4a0 (type)>, 94219840612480: <w
+18520	 {'__name__': 'os', '__doc__': "OS routines for NT or Posix depending on what system we're on.\n\nThi
+18520	 {'__name__': 'numpy', '__doc__': '\nNumPy\n=====\n\nProvides\n  1. An array object of arbitrary homo
+18520	 {'__name__': 'numpy.core', '__doc__': '\nContains the core of NumPy: ndarray, ufuncs, dtypes, etc.\n
+18520	 {'__name__': 'numpy.core.numeric', '__doc__': None, '__package__': 'numpy.core', '__loader__': <_fro
+9312	 {'sys': <module 'sys' (built-in)>, 'builtins': <module 'builtins' (built-in)>, '_frozen_importlib': 
+9312	 {'__name__': 'posix', '__doc__': 'This module provides access to operating system functionality that
+9312	 {'__name__': 'numpy.core.multiarray', '__doc__': '\nCreate the numpy.core.multiarray namespace for b
+9312	 {'__name__': 'numpy.core._multiarray_umath', '__doc__': None, '__package__': 'numpy.core', '__loader
+9312	 {'__name__': 'numpy.core._multiarray_umath', '__doc__': None, '__package__': None, '__loader__': Non
+
+types:
+4908	 <class 'function'>
+2288	 <class 'dict'>
+2184	 <class 'wrapper_descriptor'>
+1753	 <class 'tuple'>
+1271	 <class 'cell'>
+1204	 <class 'builtin_function_or_method'>
+1193	 <class 'method_descriptor'>
+1089	 <class 'weakref'>
+818	 <class 'getset_descriptor'>
+481	 <class 'type'>
+
+2022-12-08 13:44:48,356 - np_leak.py[line:26] - INFO: 
+refs:
+722	<class 'dict'> {94219840504992: <weakref at 0x7f1831e48ef0; to 'type' at 0x55b1441fc4a0 (type)>, 94219840612480: <w
+600	<class 'dict'> {'__name__': 'numpy', '__doc__': '\nNumPy\n=====\n\nProvides\n  1. An array object of arbitrary homo
+556	<class 'list'> ['ModuleDeprecationWarning', 'VisibleDeprecationWarning', '__version__', 'show_config', 'char', 'rec
+423	<class 'dict'> {'__name__': 'numpy.core', '__doc__': '\nContains the core of NumPy: ndarray, ufuncs, dtypes, etc.\n
+413	<class 'dict'> {'__name__': 'numpy.core.numeric', '__doc__': None, '__package__': 'numpy.core', '__loader__': <_fro
+387	<class 'dict'> {'__name__': 'os', '__doc__': "OS routines for NT or Posix depending on what system we're on.\n\nThi
+375	<class 'list'> ['char', 'rec', 'memmap', 'newaxis', 'ndarray', 'flatiter', 'nditer', 'nested_iters', 'ufunc', 'aran
+362	<class 'list'> [b'import', b'numpy', 'numpy', b'as', 'numpy', b'np', 'np', b'', b'from', b'mem_top', 'mem_top', b'i
+357	<class 'list'> ['altsep', 'curdir', 'pardir', 'sep', 'pathsep', 'linesep', 'defpath', 'name', 'path', 'devnull', 'S
+354	<class 'list'> ['newaxis', 'ndarray', 'flatiter', 'nditer', 'nested_iters', 'ufunc', 'arange', 'array', 'asarray', 
+
+bytes:
+18520	 {94219840504992: <weakref at 0x7f1831e48ef0; to 'type' at 0x55b1441fc4a0 (type)>, 94219840612480: <w
+18520	 {'__name__': 'os', '__doc__': "OS routines for NT or Posix depending on what system we're on.\n\nThi
+18520	 {'__name__': 'numpy', '__doc__': '\nNumPy\n=====\n\nProvides\n  1. An array object of arbitrary homo
+18520	 {'__name__': 'numpy.core', '__doc__': '\nContains the core of NumPy: ndarray, ufuncs, dtypes, etc.\n
+18520	 {'__name__': 'numpy.core.numeric', '__doc__': None, '__package__': 'numpy.core', '__loader__': <_fro
+9312	 {'sys': <module 'sys' (built-in)>, 'builtins': <module 'builtins' (built-in)>, '_frozen_importlib': 
+9312	 {'__name__': 'posix', '__doc__': 'This module provides access to operating system functionality that
+9312	 {'__name__': 'numpy.core.multiarray', '__doc__': '\nCreate the numpy.core.multiarray namespace for b
+9312	 {'__name__': 'numpy.core._multiarray_umath', '__doc__': None, '__package__': 'numpy.core', '__loader
+9312	 {'__name__': 'numpy.core._multiarray_umath', '__doc__': None, '__package__': None, '__loader__': Non
+
+types:
+4908	 <class 'function'>
+2288	 <class 'dict'>
+2184	 <class 'wrapper_descriptor'>
+1753	 <class 'tuple'>
+1271	 <class 'cell'>
+1204	 <class 'builtin_function_or_method'>
+1193	 <class 'method_descriptor'>
+1089	 <class 'weakref'>
+818	 <class 'getset_descriptor'>
+481	 <class 'type'>
+
+2022-12-08 13:44:49,015 - np_leak.py[line:26] - INFO: 
+refs:
+722	<class 'dict'> {94219840504992: <weakref at 0x7f1831e48ef0; to 'type' at 0x55b1441fc4a0 (type)>, 94219840612480: <w
+600	<class 'dict'> {'__name__': 'numpy', '__doc__': '\nNumPy\n=====\n\nProvides\n  1. An array object of arbitrary homo
+556	<class 'list'> ['ModuleDeprecationWarning', 'VisibleDeprecationWarning', '__version__', 'show_config', 'char', 'rec
+423	<class 'dict'> {'__name__': 'numpy.core', '__doc__': '\nContains the core of NumPy: ndarray, ufuncs, dtypes, etc.\n
+413	<class 'dict'> {'__name__': 'numpy.core.numeric', '__doc__': None, '__package__': 'numpy.core', '__loader__': <_fro
+387	<class 'dict'> {'__name__': 'os', '__doc__': "OS routines for NT or Posix depending on what system we're on.\n\nThi
+375	<class 'list'> ['char', 'rec', 'memmap', 'newaxis', 'ndarray', 'flatiter', 'nditer', 'nested_iters', 'ufunc', 'aran
+362	<class 'list'> [b'import', b'numpy', 'numpy', b'as', 'numpy', b'np', 'np', b'', b'from', b'mem_top', 'mem_top', b'i
+357	<class 'list'> ['altsep', 'curdir', 'pardir', 'sep', 'pathsep', 'linesep', 'defpath', 'name', 'path', 'devnull', 'S
+354	<class 'list'> ['newaxis', 'ndarray', 'flatiter', 'nditer', 'nested_iters', 'ufunc', 'arange', 'array', 'asarray', 
+
+bytes:
+18520	 {94219840504992: <weakref at 0x7f1831e48ef0; to 'type' at 0x55b1441fc4a0 (type)>, 94219840612480: <w
+18520	 {'__name__': 'os', '__doc__': "OS routines for NT or Posix depending on what system we're on.\n\nThi
+18520	 {'__name__': 'numpy', '__doc__': '\nNumPy\n=====\n\nProvides\n  1. An array object of arbitrary homo
+18520	 {'__name__': 'numpy.core', '__doc__': '\nContains the core of NumPy: ndarray, ufuncs, dtypes, etc.\n
+18520	 {'__name__': 'numpy.core.numeric', '__doc__': None, '__package__': 'numpy.core', '__loader__': <_fro
+9312	 {'sys': <module 'sys' (built-in)>, 'builtins': <module 'builtins' (built-in)>, '_frozen_importlib': 
+9312	 {'__name__': 'posix', '__doc__': 'This module provides access to operating system functionality that
+9312	 {'__name__': 'numpy.core.multiarray', '__doc__': '\nCreate the numpy.core.multiarray namespace for b
+9312	 {'__name__': 'numpy.core._multiarray_umath', '__doc__': None, '__package__': 'numpy.core', '__loader
+9312	 {'__name__': 'numpy.core._multiarray_umath', '__doc__': None, '__package__': None, '__loader__': Non
+
+types:
+4908	 <class 'function'>
+2288	 <class 'dict'>
+2184	 <class 'wrapper_descriptor'>
+1753	 <class 'tuple'>
+1271	 <class 'cell'>
+1204	 <class 'builtin_function_or_method'>
+1193	 <class 'method_descriptor'>
+1089	 <class 'weakref'>
+818	 <class 'getset_descriptor'>
+481	 <class 'type'>
+
+2022-12-08 13:44:49,724 - np_leak.py[line:26] - INFO: 
+refs:
+722	<class 'dict'> {94219840504992: <weakref at 0x7f1831e48ef0; to 'type' at 0x55b1441fc4a0 (type)>, 94219840612480: <w
+600	<class 'dict'> {'__name__': 'numpy', '__doc__': '\nNumPy\n=====\n\nProvides\n  1. An array object of arbitrary homo
+556	<class 'list'> ['ModuleDeprecationWarning', 'VisibleDeprecationWarning', '__version__', 'show_config', 'char', 'rec
+423	<class 'dict'> {'__name__': 'numpy.core', '__doc__': '\nContains the core of NumPy: ndarray, ufuncs, dtypes, etc.\n
+413	<class 'dict'> {'__name__': 'numpy.core.numeric', '__doc__': None, '__package__': 'numpy.core', '__loader__': <_fro
+387	<class 'dict'> {'__name__': 'os', '__doc__': "OS routines for NT or Posix depending on what system we're on.\n\nThi
+375	<class 'list'> ['char', 'rec', 'memmap', 'newaxis', 'ndarray', 'flatiter', 'nditer', 'nested_iters', 'ufunc', 'aran
+362	<class 'list'> [b'import', b'numpy', 'numpy', b'as', 'numpy', b'np', 'np', b'', b'from', b'mem_top', 'mem_top', b'i
+357	<class 'list'> ['altsep', 'curdir', 'pardir', 'sep', 'pathsep', 'linesep', 'defpath', 'name', 'path', 'devnull', 'S
+354	<class 'list'> ['newaxis', 'ndarray', 'flatiter', 'nditer', 'nested_iters', 'ufunc', 'arange', 'array', 'asarray', 
+
+bytes:
+18520	 {94219840504992: <weakref at 0x7f1831e48ef0; to 'type' at 0x55b1441fc4a0 (type)>, 94219840612480: <w
+18520	 {'__name__': 'os', '__doc__': "OS routines for NT or Posix depending on what system we're on.\n\nThi
+18520	 {'__name__': 'numpy', '__doc__': '\nNumPy\n=====\n\nProvides\n  1. An array object of arbitrary homo
+18520	 {'__name__': 'numpy.core', '__doc__': '\nContains the core of NumPy: ndarray, ufuncs, dtypes, etc.\n
+18520	 {'__name__': 'numpy.core.numeric', '__doc__': None, '__package__': 'numpy.core', '__loader__': <_fro
+9312	 {'sys': <module 'sys' (built-in)>, 'builtins': <module 'builtins' (built-in)>, '_frozen_importlib': 
+9312	 {'__name__': 'posix', '__doc__': 'This module provides access to operating system functionality that
+9312	 {'__name__': 'numpy.core.multiarray', '__doc__': '\nCreate the numpy.core.multiarray namespace for b
+9312	 {'__name__': 'numpy.core._multiarray_umath', '__doc__': None, '__package__': 'numpy.core', '__loader
+9312	 {'__name__': 'numpy.core._multiarray_umath', '__doc__': None, '__package__': None, '__loader__': Non
+
+types:
+4908	 <class 'function'>
+2288	 <class 'dict'>
+2184	 <class 'wrapper_descriptor'>
+1753	 <class 'tuple'>
+1271	 <class 'cell'>
+1204	 <class 'builtin_function_or_method'>
+1193	 <class 'method_descriptor'>
+1089	 <class 'weakref'>
+818	 <class 'getset_descriptor'>
+481	 <class 'type'>
+
+2022-12-08 13:44:50,483 - np_leak.py[line:26] - INFO: 
+refs:
+722	<class 'dict'> {94219840504992: <weakref at 0x7f1831e48ef0; to 'type' at 0x55b1441fc4a0 (type)>, 94219840612480: <w
+600	<class 'dict'> {'__name__': 'numpy', '__doc__': '\nNumPy\n=====\n\nProvides\n  1. An array object of arbitrary homo
+556	<class 'list'> ['ModuleDeprecationWarning', 'VisibleDeprecationWarning', '__version__', 'show_config', 'char', 'rec
+423	<class 'dict'> {'__name__': 'numpy.core', '__doc__': '\nContains the core of NumPy: ndarray, ufuncs, dtypes, etc.\n
+413	<class 'dict'> {'__name__': 'numpy.core.numeric', '__doc__': None, '__package__': 'numpy.core', '__loader__': <_fro
+387	<class 'dict'> {'__name__': 'os', '__doc__': "OS routines for NT or Posix depending on what system we're on.\n\nThi
+375	<class 'list'> ['char', 'rec', 'memmap', 'newaxis', 'ndarray', 'flatiter', 'nditer', 'nested_iters', 'ufunc', 'aran
+362	<class 'list'> [b'import', b'numpy', 'numpy', b'as', 'numpy', b'np', 'np', b'', b'from', b'mem_top', 'mem_top', b'i
+357	<class 'list'> ['altsep', 'curdir', 'pardir', 'sep', 'pathsep', 'linesep', 'defpath', 'name', 'path', 'devnull', 'S
+354	<class 'list'> ['newaxis', 'ndarray', 'flatiter', 'nditer', 'nested_iters', 'ufunc', 'arange', 'array', 'asarray', 
+
+bytes:
+18520	 {94219840504992: <weakref at 0x7f1831e48ef0; to 'type' at 0x55b1441fc4a0 (type)>, 94219840612480: <w
+18520	 {'__name__': 'os', '__doc__': "OS routines for NT or Posix depending on what system we're on.\n\nThi
+18520	 {'__name__': 'numpy', '__doc__': '\nNumPy\n=====\n\nProvides\n  1. An array object of arbitrary homo
+18520	 {'__name__': 'numpy.core', '__doc__': '\nContains the core of NumPy: ndarray, ufuncs, dtypes, etc.\n
+18520	 {'__name__': 'numpy.core.numeric', '__doc__': None, '__package__': 'numpy.core', '__loader__': <_fro
+9312	 {'sys': <module 'sys' (built-in)>, 'builtins': <module 'builtins' (built-in)>, '_frozen_importlib': 
+9312	 {'__name__': 'posix', '__doc__': 'This module provides access to operating system functionality that
+9312	 {'__name__': 'numpy.core.multiarray', '__doc__': '\nCreate the numpy.core.multiarray namespace for b
+9312	 {'__name__': 'numpy.core._multiarray_umath', '__doc__': None, '__package__': 'numpy.core', '__loader
+9312	 {'__name__': 'numpy.core._multiarray_umath', '__doc__': None, '__package__': None, '__loader__': Non
+
+types:
+4908	 <class 'function'>
+2288	 <class 'dict'>
+2184	 <class 'wrapper_descriptor'>
+1753	 <class 'tuple'>
+1271	 <class 'cell'>
+1204	 <class 'builtin_function_or_method'>
+1193	 <class 'method_descriptor'>
+1089	 <class 'weakref'>
+818	 <class 'getset_descriptor'>
+481	 <class 'type'>
+
+2022-12-08 13:44:51,179 - np_leak.py[line:26] - INFO: 
+refs:
+722	<class 'dict'> {94219840504992: <weakref at 0x7f1831e48ef0; to 'type' at 0x55b1441fc4a0 (type)>, 94219840612480: <w
+600	<class 'dict'> {'__name__': 'numpy', '__doc__': '\nNumPy\n=====\n\nProvides\n  1. An array object of arbitrary homo
+556	<class 'list'> ['ModuleDeprecationWarning', 'VisibleDeprecationWarning', '__version__', 'show_config', 'char', 'rec
+423	<class 'dict'> {'__name__': 'numpy.core', '__doc__': '\nContains the core of NumPy: ndarray, ufuncs, dtypes, etc.\n
+413	<class 'dict'> {'__name__': 'numpy.core.numeric', '__doc__': None, '__package__': 'numpy.core', '__loader__': <_fro
+387	<class 'dict'> {'__name__': 'os', '__doc__': "OS routines for NT or Posix depending on what system we're on.\n\nThi
+375	<class 'list'> ['char', 'rec', 'memmap', 'newaxis', 'ndarray', 'flatiter', 'nditer', 'nested_iters', 'ufunc', 'aran
+362	<class 'list'> [b'import', b'numpy', 'numpy', b'as', 'numpy', b'np', 'np', b'', b'from', b'mem_top', 'mem_top', b'i
+357	<class 'list'> ['altsep', 'curdir', 'pardir', 'sep', 'pathsep', 'linesep', 'defpath', 'name', 'path', 'devnull', 'S
+354	<class 'list'> ['newaxis', 'ndarray', 'flatiter', 'nditer', 'nested_iters', 'ufunc', 'arange', 'array', 'asarray', 
+
+bytes:
+18520	 {94219840504992: <weakref at 0x7f1831e48ef0; to 'type' at 0x55b1441fc4a0 (type)>, 94219840612480: <w
+18520	 {'__name__': 'os', '__doc__': "OS routines for NT or Posix depending on what system we're on.\n\nThi
+18520	 {'__name__': 'numpy', '__doc__': '\nNumPy\n=====\n\nProvides\n  1. An array object of arbitrary homo
+18520	 {'__name__': 'numpy.core', '__doc__': '\nContains the core of NumPy: ndarray, ufuncs, dtypes, etc.\n
+18520	 {'__name__': 'numpy.core.numeric', '__doc__': None, '__package__': 'numpy.core', '__loader__': <_fro
+9312	 {'sys': <module 'sys' (built-in)>, 'builtins': <module 'builtins' (built-in)>, '_frozen_importlib': 
+9312	 {'__name__': 'posix', '__doc__': 'This module provides access to operating system functionality that
+9312	 {'__name__': 'numpy.core.multiarray', '__doc__': '\nCreate the numpy.core.multiarray namespace for b
+9312	 {'__name__': 'numpy.core._multiarray_umath', '__doc__': None, '__package__': 'numpy.core', '__loader
+9312	 {'__name__': 'numpy.core._multiarray_umath', '__doc__': None, '__package__': None, '__loader__': Non
+
+types:
+4908	 <class 'function'>
+2288	 <class 'dict'>
+2184	 <class 'wrapper_descriptor'>
+1753	 <class 'tuple'>
+1271	 <class 'cell'>
+1204	 <class 'builtin_function_or_method'>
+1193	 <class 'method_descriptor'>
+1089	 <class 'weakref'>
+818	 <class 'getset_descriptor'>
+481	 <class 'type'>
+
+2022-12-08 13:44:51,834 - np_leak.py[line:26] - INFO: 
+refs:
+722	<class 'dict'> {94219840504992: <weakref at 0x7f1831e48ef0; to 'type' at 0x55b1441fc4a0 (type)>, 94219840612480: <w
+600	<class 'dict'> {'__name__': 'numpy', '__doc__': '\nNumPy\n=====\n\nProvides\n  1. An array object of arbitrary homo
+556	<class 'list'> ['ModuleDeprecationWarning', 'VisibleDeprecationWarning', '__version__', 'show_config', 'char', 'rec
+423	<class 'dict'> {'__name__': 'numpy.core', '__doc__': '\nContains the core of NumPy: ndarray, ufuncs, dtypes, etc.\n
+413	<class 'dict'> {'__name__': 'numpy.core.numeric', '__doc__': None, '__package__': 'numpy.core', '__loader__': <_fro
+387	<class 'dict'> {'__name__': 'os', '__doc__': "OS routines for NT or Posix depending on what system we're on.\n\nThi
+375	<class 'list'> ['char', 'rec', 'memmap', 'newaxis', 'ndarray', 'flatiter', 'nditer', 'nested_iters', 'ufunc', 'aran
+362	<class 'list'> [b'import', b'numpy', 'numpy', b'as', 'numpy', b'np', 'np', b'', b'from', b'mem_top', 'mem_top', b'i
+357	<class 'list'> ['altsep', 'curdir', 'pardir', 'sep', 'pathsep', 'linesep', 'defpath', 'name', 'path', 'devnull', 'S
+354	<class 'list'> ['newaxis', 'ndarray', 'flatiter', 'nditer', 'nested_iters', 'ufunc', 'arange', 'array', 'asarray', 
+
+bytes:
+18520	 {94219840504992: <weakref at 0x7f1831e48ef0; to 'type' at 0x55b1441fc4a0 (type)>, 94219840612480: <w
+18520	 {'__name__': 'os', '__doc__': "OS routines for NT or Posix depending on what system we're on.\n\nThi
+18520	 {'__name__': 'numpy', '__doc__': '\nNumPy\n=====\n\nProvides\n  1. An array object of arbitrary homo
+18520	 {'__name__': 'numpy.core', '__doc__': '\nContains the core of NumPy: ndarray, ufuncs, dtypes, etc.\n
+18520	 {'__name__': 'numpy.core.numeric', '__doc__': None, '__package__': 'numpy.core', '__loader__': <_fro
+9312	 {'sys': <module 'sys' (built-in)>, 'builtins': <module 'builtins' (built-in)>, '_frozen_importlib': 
+9312	 {'__name__': 'posix', '__doc__': 'This module provides access to operating system functionality that
+9312	 {'__name__': 'numpy.core.multiarray', '__doc__': '\nCreate the numpy.core.multiarray namespace for b
+9312	 {'__name__': 'numpy.core._multiarray_umath', '__doc__': None, '__package__': 'numpy.core', '__loader
+9312	 {'__name__': 'numpy.core._multiarray_umath', '__doc__': None, '__package__': None, '__loader__': Non
+
+types:
+4908	 <class 'function'>
+2288	 <class 'dict'>
+2184	 <class 'wrapper_descriptor'>
+1753	 <class 'tuple'>
+1271	 <class 'cell'>
+1204	 <class 'builtin_function_or_method'>
+1193	 <class 'method_descriptor'>
+1089	 <class 'weakref'>
+818	 <class 'getset_descriptor'>
+481	 <class 'type'>
+

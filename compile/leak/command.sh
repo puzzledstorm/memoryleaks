@@ -1,0 +1,1 @@
+gcc leak.c -fPIC -shared -o leak.so
