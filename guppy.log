@@ -1,0 +1,11 @@
+2022-12-13 14:02:36,101 - test2.py[line:52] - INFO: Started worker 19060
+2022-12-13 14:03:24,889 - test2.py[line:52] - INFO: Started worker 19463
+2022-12-13 14:06:00,627 - guppy_test.py[line:63] - INFO: Started worker 20525
+2022-12-13 14:07:42,131 - test2.py[line:52] - INFO: Started worker 21230
+2022-12-13 14:09:55,609 - test2.py[line:52] - INFO: Started worker 22239
+2022-12-13 14:12:20,345 - guppy_test.py[line:63] - INFO: Started worker 23197
+2022-12-13 14:12:36,294 - guppy_test.py[line:63] - INFO: Started worker 23356
+2022-12-13 14:17:01,162 - guppy_test.py[line:71] - INFO: Started worker 25202
+2022-12-13 14:17:45,476 - guppy_test.py[line:71] - INFO: Started worker 25597
+2022-12-13 14:19:57,580 - guppy_test.py[line:73] - INFO: Started worker 26493
+2022-12-13 14:22:20,065 - guppy_test.py[line:75] - INFO: Started worker 27484

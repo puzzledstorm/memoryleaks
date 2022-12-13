@@ -21,6 +21,7 @@ objgraph.show_growth()
 #         objgraph.is_proper_module),
 #     filename='chain.png')
 
-roots = objgraph.get_leaking_objects()
-print(len(roots))
+# roots = objgraph.get_leaking_objects()
+# print(len(roots))
 # objgraph.show_refs(roots[:3], refcounts=True, filename='roots.png')
+
