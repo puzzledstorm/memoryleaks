@@ -1,0 +1,11 @@
+https://hazirguo.github.io/articles/2018/py_spy_use_guide.html
+https://www.cnblogs.com/-wenli/p/13374186.html
+
+  1按％Own排序（当前在该函数中花费的时间的百分比）
+  2按％Total排序（函数及其子级中当前的时间百分比）
+  3按OwnTime排序（函数中花费的总时间）
+  4按TotalTime排序（该函数及其子项花费的总时间）
+
+文档
+https://www.cnblogs.com/ljz-2014/p/11278890.html
+https://github.com/benfred/py-spy
